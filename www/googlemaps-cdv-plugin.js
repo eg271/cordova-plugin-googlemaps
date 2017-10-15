@@ -192,7 +192,9 @@ if (!cordova) {
           visibleMapList.push(mapId);
         }
       }
+      console.log('putHTMLElements', idlingCnt, visibleMapList, Object.keys(MAPS), isSuspended)
       if (idlingCnt > -1 && visibleMapList.length === 0 && Object.keys(MAPS).length === 0) {
+        console.log('cancel dom check')
         idlingCnt++;
         if (!isSuspended) {
           cordova_exec(null, null, 'CordovaGoogleMaps', 'pause', []);
