@@ -188,12 +188,12 @@ if (!cordova) {
       for (i = 0; i < mapIDs.length; i++) {
         mapId = mapIDs[i];
         map = MAPS[mapId];
-        if (map && map.getVisible() && map.getDiv() && common.shouldWatchByNative(map.getDiv())) {
+        if (map && map.getClickable() && map.getDiv() && common.shouldWatchByNative(map.getDiv())) {
           visibleMapList.push(mapId);
         }
       }
-      console.log('putHTMLElements', idlingCnt, visibleMapList, Object.keys(MAPS), isSuspended)
-      if (idlingCnt > -1 && visibleMapList.length === 0 && Object.keys(MAPS).length === 0) {
+      console.log('putHTMLElements', idlingCnt, visibleMapList.length, Object.keys(MAPS).length, isSuspended)
+      if (idlingCnt > -1 && visibleMapList.length === 0) {
         console.log('cancel dom check')
         idlingCnt++;
         if (!isSuspended) {
