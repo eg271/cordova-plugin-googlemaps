@@ -105,6 +105,7 @@ Map.prototype.getMap = function(mapId, div, options) {
           div.style.position = "relative";
         }
         self.set("visible", true);
+        self.set("clickable", true);
         options = options || {};
         if (options.camera) {
           if (options.camera.latLng) {
@@ -491,7 +492,11 @@ Map.prototype.setVisible = function(isVisible) {
 Map.prototype.setClickable = function(isClickable) {
     isClickable = common.parseBoolean(isClickable);
     exec.call(this, null, self.errorHandler, this.id, 'setClickable', [isClickable]);
+    this.set("clickable", isClickable);
     return this;
+};
+Map.prototype.getClickable = function() {
+    return this.get("clickable");
 };
 
 
