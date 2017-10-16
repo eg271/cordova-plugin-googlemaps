@@ -1,6 +1,8 @@
+cordova.define("cordova-plugin-googlemaps.CordovaGoogleMaps", function(require, exports, module) {
 /* global cordova, plugin, CSSPrimitiveValue */
 var cordova_exec = require('cordova/exec');
 var isSuspended = false;
+var pluginActive=true;
 if (!cordova) {
   document.addEventListener("deviceready", function() {
     isSuspended = true;
@@ -129,6 +131,7 @@ if (!cordova) {
     var followPositionTimer = null;
     var followPositionTimerCnt = 0;
     function followMapDivPositionOnly() {
+       if(!pluginActive) return;
       var mapRects = {};
       var mapIDs = Object.keys(MAPS);
       mapIDs.forEach(function(mapId) {
@@ -146,6 +149,7 @@ if (!cordova) {
     }
 
     function onTouchEnd(event) {
+       if(!pluginActive) return;
       followPositionTimerCnt = 0;
       followPositionTimer = setInterval(function() {
         if (followPositionTimerCnt++ > 25) {
@@ -165,6 +169,7 @@ if (!cordova) {
     }
 
     function putHtmlElements() {
+       if(!pluginActive) return;
       var mapIDs = Object.keys(MAPS);
       if (isChecking) {
         return;
@@ -192,9 +197,8 @@ if (!cordova) {
           visibleMapList.push(mapId);
         }
       }
-      console.log('putHTMLElements', idlingCnt, visibleMapList.length, Object.keys(MAPS).length, isSuspended)
+
       if (idlingCnt > -1 && visibleMapList.length === 0) {
-        console.log('cancel dom check')
         idlingCnt++;
         if (!isSuspended) {
           cordova_exec(null, null, 'CordovaGoogleMaps', 'pause', []);
@@ -477,6 +481,8 @@ if (!cordova) {
     // This is the special event that is fired by the google maps plugin
     // (Not generic plugin)
     function resetTimer() {
+       console.log('resetTimer()', window.pausePlugin, pluginActive)
+       if(!pluginActive) return;
       idlingCnt = -1;
       longIdlingCnt = -1;
       cacheDepth = {};
@@ -582,6 +588,13 @@ if (!cordova) {
    * Name space
    *****************************************************************************/
   module.exports = {
+    setPluginActive: function(active){
+       console.log('plugin', active);
+       var cdv_active = active ? 'resume' : 'pause';
+       cordova_exec(null, null, 'CordovaGoogleMaps', cdv_active, []);
+       isSuspended = !active;
+       pluginActive = active;
+    },
     event: event,
     Animation: {
         BOUNCE: 'BOUNCE',
@@ -819,3 +832,5 @@ function _exec() {
   _isExecuting = false;
 
 }
+
+});
