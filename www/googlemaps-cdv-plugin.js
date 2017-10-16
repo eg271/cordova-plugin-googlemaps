@@ -593,7 +593,11 @@ if (!cordova) {
        cordova_exec(null, null, 'CordovaGoogleMaps', cdv_active, []);
        isSuspended = !active;
        pluginActive = active;
-       if(active) cordova.fireDocumentEvent('plugin_touch', {});
+       if(active) {
+        cordova.fireDocumentEvent('plugin_touch', {}){
+        }else{
+        cordova_exec(null, null, 'CordovaGoogleMaps', 'pauseResizeTimer', []);
+        }
     },
     event: event,
     Animation: {
