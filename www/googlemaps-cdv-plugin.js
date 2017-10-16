@@ -1,4 +1,3 @@
-cordova.define("cordova-plugin-googlemaps.CordovaGoogleMaps", function(require, exports, module) {
 /* global cordova, plugin, CSSPrimitiveValue */
 var cordova_exec = require('cordova/exec');
 var isSuspended = false;
@@ -594,6 +593,7 @@ if (!cordova) {
        cordova_exec(null, null, 'CordovaGoogleMaps', cdv_active, []);
        isSuspended = !active;
        pluginActive = active;
+       if(active) cordova.fireDocumentEvent('plugin_touch', {});
     },
     event: event,
     Animation: {
@@ -832,5 +832,3 @@ function _exec() {
   _isExecuting = false;
 
 }
-
-});
