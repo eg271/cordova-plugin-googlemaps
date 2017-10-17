@@ -588,15 +588,12 @@ if (!cordova) {
    *****************************************************************************/
   module.exports = {
     setPluginActive: function(active){
-       console.log('plugin', active);
        var cdv_active = active ? 'resume' : 'pause';
        cordova_exec(null, null, 'CordovaGoogleMaps', cdv_active, []);
        isSuspended = !active;
        pluginActive = active;
         if(active) {
             cordova.fireDocumentEvent('plugin_touch', {})
-        }else{
-            cordova_exec(null, null, 'CordovaGoogleMaps', 'pauseResizeTimer', []);
         }
     },
     event: event,
