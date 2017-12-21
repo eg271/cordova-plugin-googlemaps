@@ -480,7 +480,7 @@ if (!cordova) {
     // This is the special event that is fired by the google maps plugin
     // (Not generic plugin)
     function resetTimer() {
-       console.log('resetTimer()', window.pausePlugin, pluginActive)
+       //console.log('resetTimer()', window.pausePlugin, pluginActive)
        if(!pluginActive) return;
       idlingCnt = -1;
       longIdlingCnt = -1;
